@@ -1,0 +1,109 @@
+{%extends "layout.html"%}
+{% block extra_css %}
+<style>
+    .reaction-box {
+        display: flex;
+        gap: 15px;
+        margin-top: 10px;
+    }
+
+    .reaction-btn {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 12px;
+        border-radius: 20px;
+        background: #f0f0f0;
+        font-size: 15px;
+        text-decoration: none;
+        color: #333;
+        transition: 0.25s ease-in-out;
+        border: 1px solid #ddd;
+    }
+
+    .reaction-btn:hover {
+        background: #e5e5e5;
+        transform: scale(1.05);
+    }
+
+    /* 👍 Active State (Same style as YouTube blue like button) */
+    .active-like {
+        background: #e1efff;
+        color: #1a73e8;
+        border-color: #1a73e8;
+        font-weight: 600;
+    }
+
+    /* 👎 Active State */
+    .active-dislike {
+        background: #ffe1e1;
+        color: #d93025;
+        border-color: #d93025;
+        font-weight: 600;
+    }
+
+    .icon {
+        font-size: 18px;
+    }
+</style>
+{% endblock %}
+{% block title %}
+{{ tweet.title }}
+{% endblock %}
+
+{% block content %}
+
+<div class="tweet-detail-container">
+
+    <h1>{{ tweet.title }}</h1>
+
+    <p><strong>By:</strong> {{ tweet.user.username }}</p>
+    <p><strong>Posted on:</strong> {{ tweet.created_at }}</p>
+
+    {% if tweet.user == user %}
+    <hr>
+    <a href="{% url 'tweet_edit' tweet.id %}" class="btn btn-primary">Edit</a>
+    <a href="{% url 'tweet_delete' tweet.id %}" class="btn btn-danger">Delete</a>
+    {% endif %}
+    <hr>
+    <p style="font-size: 18px;">
+        {{ tweet.text }}
+    </p>
+
+    {% if tweet.photo %}
+    <img src="{{ tweet.photo.url }}" alt="Tweet Photo" style="width: 350px; margin-top: 15px; border-radius: 10px;">
+
+    {% elif tweet.video %}
+    <video width="350" style="margin-top: 15px; border-radius: 10px;" controls autoplay muted loop>
+        <source src="{{ tweet.video.url }}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    {% endif %}
+
+
+    <br><br>
+    {% if user.is_authenticated %}
+    <span class="reaction-box">
+        <a href="{% url 'like_tweet' tweet.id %}"
+            class="reaction-btn {% if request.user in tweet.likes.all %}active-like{% endif %}">
+            <span class="icon">👍</span>
+            <span class="count">{{ tweet.total_likes }}</span>
+        </a>
+
+        <a href="{% url 'dislike_tweet' tweet.id %}"
+            class="reaction-btn {% if request.user in tweet.dislikes.all %}active-dislike{% endif %}">
+            <span class="icon">👎</span>
+            <span class="count">{{ tweet.total_dislikes }}</span>
+        </a>
+    </span>
+    {% else %}
+    <a href="{% url 'login' %}?next={{ request.path }}" style="color: gray; text-decoration: none;">
+        Login to like or dislike
+    </a>
+    {% endif %}
+<br>
+    <a href="{% url 'tweet_list' %}" class="btn btn-warning mt-3">← Back to Tweets</a>
+
+</div>
+
+{% endblock %}

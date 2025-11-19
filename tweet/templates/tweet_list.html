@@ -1,0 +1,36 @@
+{%extends "layout.html"%}
+
+{%block title%}
+My twitter
+{%endblock%}
+
+{%block content%}
+<h1 class="text-center mt-3">Welcome to Mini Twitter</h1>
+
+
+<a class="btn btn-primary mb-4" href="{% url 'tweet_create' %}">Creae a tweet</a>
+
+<div class="container row gap-3">
+    {%for tweet in tweets%}
+    <a href="{% url 'tweet_detail' tweet.id %}" class="card"
+        style="width: 18rem; text-decoration: none; color: inherit; ">
+        {% if tweet.photo %}
+        <img src="{{tweet.photo.url}}" class="card-img-top" style="border-radius: 5px; margin-top: 5px;" alt="...">
+        {% elif tweet.video %}
+        <video class="card-img-top" style="border-radius: 5px; margin-top: 5px;" autoplay muted loop>
+            <source src="{{ tweet.video.url }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        {% endif %}
+            <div class="card-body">
+                <h5 class="card-text">{{tweet.title}}</h5>
+                <h6 class="card-title">{{tweet.user.username}}</h6>
+
+
+            </div>
+    </a>
+    {%endfor%}
+</div>
+
+
+{%endblock%}

@@ -1,0 +1,84 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {% block title %}
+        Mini Twitter
+        {% endblock %}
+    </title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+{% block extra_css %}{% endblock %}
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+
+            <!-- LEFT SIDE -->
+            <div class="navbar-brand d-flex align-items-center">
+                <svg width="150" height="40" viewBox="0 0 210 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M24 5c-4 3-6 7-6 11 0 5 3 9 7 11-3 0-5-1-7-2 0 7 5 13 12 14-2 1-4 1-6 1-1 0-2 0-3-1 4 6 10 9 17 9-8 6-18 9-28 9h-3c10 6 22 9 34 9 20 0 36-7 46-19 11-12 16-27 16-44v-2c3-2 6-4 8-7-3 1-6 2-9 2 3-2 6-5 7-9-3 2-7 3-10 3-3-3-7-5-11-5-4 0-8 2-11 5-3 3-5 7-5 12 0 2 0 3 1 4-13-1-25-7-33-17z"
+                        fill="#28E0B8" transform="scale(0.7) translate(0,5)" />
+                    <text x="70" y="30" font-size="20" font-weight="800" font-family="Poppins, Arial, sans-serif"
+                        fill="#28E0B8" letter-spacing="1">
+                        MiniTwitter
+                    </text>
+                </svg>
+            </div>
+
+            <!-- Mobile Button -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- MAIN MENU -->
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+                <!-- LEFT NAV ITEMS -->
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-3 gap-3">
+                    <li class="nav-item">
+                        <a href="{% url 'tweet_list' %}" class="btn btn-primary">Tweet Home</a>
+                    </li>
+                    {% if user.is_authenticated %}
+                    <li>
+                        <a href="{% url 'profile' user.username %}" class="btn btn-primary">
+                        Your Profile
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+
+                <!-- RIGHT SIDE AUTH BUTTONS -->
+                <div class="d-flex align-items-center">
+
+                    {% if user.is_authenticated %}
+                    
+                    <form method="POST" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button class="btn btn-danger ms-2" type="submit">Logout</button>
+                    </form>
+
+                    {% else %}
+                    <a href="{% url 'login' %}" class="btn btn-success ms-2">Login</a>
+                    <a href="{% url 'register' %}" class="btn btn-primary ms-2">Register</a>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+
+</html>
