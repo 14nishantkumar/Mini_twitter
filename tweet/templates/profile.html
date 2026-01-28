@@ -45,57 +45,61 @@
 
     <hr>
 
-    <h3>Liked Tweet's</h3>
+    <h3>Liked Tweets</h3>
+
     <div class="container row gap-3">
-        {%for tweet in liked_tweets%}
+        {% for tweet in liked_tweets %}
         <a href="{% url 'tweet_detail' tweet.id %}" class="card"
-            style="width: 18rem; text-decoration: none; color: inherit; ">
+            style="width: 18rem; text-decoration: none; color: inherit;">
+
             {% if tweet.photo %}
-            <img src="{{tweet.photo.url}}" class="card-img-top" style="border-radius: 5px; margin-top: 5px;" alt="...">
+            <img src="{{ tweet.photo.url }}" class="card-img-top" style="border-radius: 5px; margin-top: 5px;" alt="">
+
             {% elif tweet.video %}
             <video class="card-img-top" style="border-radius: 5px; margin-top: 5px;" autoplay muted loop>
                 <source src="{{ tweet.video.url }}" type="video/mp4">
-                Your browser does not support the video tag.
             </video>
             {% endif %}
+
             <div class="card-body">
-                <h5 class="card-text">{{tweet.title}}</h5>
-                <h6 class="card-title">{{tweet.user.username}}</h6>
-
-
+                <h5 class="card-text">{{ tweet.title }}</h5>
+                <h6 class="card-title">@{{ tweet.user.username }}</h6>
             </div>
         </a>
+        {% empty %}
+        <p>No liked tweets.</p>
+        {% endfor %}
     </div>
-    {% empty %}
-    <p>No liked tweets.</p>
-    {% endfor %}
+
 
     <hr>
 
-    <h3>Disliked Tweet's</h3>
+    <h3>Disliked Tweets</h3>
+
     <div class="container row gap-3">
-        {%for tweet in liked_tweets%}
+        {% for tweet in disliked_tweets %}
         <a href="{% url 'tweet_detail' tweet.id %}" class="card"
-            style="width: 18rem; text-decoration: none; color: inherit; ">
+            style="width: 18rem; text-decoration: none; color: inherit;">
+
             {% if tweet.photo %}
-            <img src="{{tweet.photo.url}}" class="card-img-top" style="border-radius: 5px; margin-top: 5px;" alt="...">
+            <img src="{{ tweet.photo.url }}" class="card-img-top" style="border-radius: 5px; margin-top: 5px;" alt="">
+
             {% elif tweet.video %}
             <video class="card-img-top" style="border-radius: 5px; margin-top: 5px;" autoplay muted loop>
                 <source src="{{ tweet.video.url }}" type="video/mp4">
-                Your browser does not support the video tag.
             </video>
             {% endif %}
+
             <div class="card-body">
-                <h5 class="card-text">{{tweet.title}}</h5>
-                <h6 class="card-title">{{tweet.user.username}}</h6>
-
-
+                <h5 class="card-text">{{ tweet.title }}</h5>
+                <h6 class="card-title">@{{ tweet.user.username }}</h6>
             </div>
         </a>
+        {% empty %}
+        <p>No disliked tweets.</p>
+        {% endfor %}
     </div>
-    {% empty %}
-    <p>No disliked tweets.</p>
-    {% endfor %}
+
 
 </div>
 {% endblock %}

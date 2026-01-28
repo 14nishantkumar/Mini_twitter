@@ -25,7 +25,8 @@ def home_view(request):
     return render(request, 'home.html')
 urlpatterns = [
     path('admin/', admin.site.urls,),
-    path('', home_view, name='home'),
+    # path('', home_view, name='home'),
+    path('', include('tweet.urls')),
     path('tweet/', include('tweet.urls')),
     path('accounts/',include('django.contrib.auth.urls')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
