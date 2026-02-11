@@ -48,7 +48,7 @@ Mini Twitter is a simple social media web application where users can post tweet
 
 1. Clone the repository:
 ``` bash
-git clone <repository_url>
+git clone https://github.com/14nishantkumar/Mini_twitter.git
 cd mini-twitter
 ```
 
