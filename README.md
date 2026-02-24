@@ -49,7 +49,7 @@ Mini Twitter is a simple social media web application where users can post tweet
 1. Clone the repository:
 ``` bash
 git clone https://github.com/14nishantkumar/Mini_twitter.git
-cd mini-twitter
+cd Mini_twitter
 ```
 
 2. Create a virtual environment:
